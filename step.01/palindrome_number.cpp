@@ -16,19 +16,24 @@ Total: O(n).
 class Solution
 {
     public:
-        string is_palindrome(int n)
+        bool is_palindrome(int n)
         {
+            // Negative numbers cannot be palindromes
+            if (n < 0) {
+                return false; //edge case
+            }
+
             // Convert the number to a string
             string temp = to_string(n);
 
             // Loop to compare characters from both ends
-            for (int i = 0; i < temp.length(); i++) {
+            for (int i = 0; i < temp.length() / 2; i++) {   //comparing the first half with the second half is sufficient.
                 if (temp[i] != temp[temp.length() - 1 - i]) {
-                    return "No"; // Return "No" if mismatch found
+                    return false; // Return false if mismatch found
                 }
             }
 
-            return "Yes"; // Return "Yes" if all characters match
+            return true; // Return true if all characters match
         }
 };
 
