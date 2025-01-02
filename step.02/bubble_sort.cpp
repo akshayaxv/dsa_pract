@@ -11,7 +11,7 @@ using namespace std;
  * Example Input:
  * arr = {64, 34, 25, 12, 22}
  * Output:
- * arr = {12, 22, 25, 34, 64}
+ * arr = {12, 22, 25, 34, 64} 
  */
 
 /*
@@ -21,7 +21,7 @@ using namespace std;
  * - Average Case: O(n^2) for random order of elements.
  * 
  * Space Complexity:
- * - O(1), as the sorting is done in place without extra memory.
+ *  O(1), as the sorting is done in place without any extra memory.
  */
 
 class Solution {
