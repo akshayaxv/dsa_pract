@@ -28,12 +28,12 @@ class Solution {
 public:
     // Function to sort the array using Bubble Sort algorithm.
     void bubbleSort(int arr[], int n) {
-        // Outer loop controls the number of passes
-        for (int i = n - 1; i >= 0; i--) {
-            // Inner loop compares adjacent elements
-            for (int j = 0; j < i; j++) {
+        // Outer loop using i++ to iterate from start to end
+        for (int i = 0; i < n - 1; i++) {
+            // Inner loop compares adjacent elements within the unsorted range
+            for (int j = 0; j < n - i - 1; j++) {
                 // If the current element is greater than the next one, swap them
-                if (arr[j + 1] < arr[j]) {
+                if (arr[j] > arr[j + 1]) {
                     swap(arr[j], arr[j + 1]);
                 }
             }
