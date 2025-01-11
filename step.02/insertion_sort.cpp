@@ -28,16 +28,19 @@ class Solution {
 public:
     // Function to sort the array using Insertion Sort algorithm.
     void insertionSort(int arr[], int n) {
-        for (int i = 0; i < n; i++) {
-            int j = i;  // Start from the current element
-            // Shift elements that are greater than the current element
-            while (j > 0 and arr[j - 1] > arr[j]) {
-                // Swap the elements
-                int a = arr[j];
-                arr[j] = arr[j - 1];
-                arr[j - 1] = a;
-                --j;  // Move one step back
+        
+        for (int i = 1; i < n; i++) {  // Start with the second element
+            int current = arr[i];     // Take the current element
+            int j = i - 1;            // Compare with elements in the sorted part
+
+            // Shift larger elements to the right
+            while (j >= 0 && arr[j] > current) {
+                arr[j + 1] = arr[j];
+                j--;
             }
+
+            // Insert the current element in its correct position
+            arr[j + 1] = current;
         }
     }
 };
