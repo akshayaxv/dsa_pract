@@ -20,7 +20,8 @@ public:
             // If it's the last element or current element is not equal to the next
             if (j == N - 1 || A[j] != A[j + 1])
             {
-                result.push_back(A[j]); // Store unique element in the result
+                result.push_back(A[j]); // Store unique element in the result 
+                //arr[i]==arr[j] ->if op only number of duplicates
                 i++;
                 j++;
             }
