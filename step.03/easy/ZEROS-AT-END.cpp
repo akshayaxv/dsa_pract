@@ -23,9 +23,10 @@ Output: arr[] = {1, 2, 3, 4, 0, 0, 0}
 4. Copy the elements of `temp` back to the original array.
 
 #### Code for Brute Force Approach:
-void pushZerosToEndBruteForce(int arr[], int n) {
+void pushZerosToEndBruteForce(vector<int>& arr) {
+    int n = arr.size();
     // Create a temporary array
-    int temp[n];
+    vector<int> temp(n);
     int index = 0;
 
     // Copy all non-zero elements to temp
@@ -41,9 +42,7 @@ void pushZerosToEndBruteForce(int arr[], int n) {
     }
 
     // Copy elements from temp back to the original array
-    for (int i = 0; i < n; i++) {
-        arr[i] = temp[i];
-    }
+    arr = temp;
 }
 
 #### Time Complexity:
@@ -85,10 +84,10 @@ Output: arr[] = {1, 2, 3, 4, 0, 0, 0}
 
 class Solution {
 public:
-    void pushZerosToEnd(int arr[], int n) {
-        // Optimal Solution: In-place Two-pointer Technique
+    // Optimal Solution: In-place Two-pointer Technique
+    void pushZerosToEnd(vector<int>& arr) {
         int i = -1; // Tracks the position to place the next non-zero element
-        for (int j = 0; j < n; j++) {
+        for (int j = 0; j < arr.size(); j++) {
             if (arr[j] != 0) {
                 i++;               // Move the pointer for non-zero elements
                 swap(arr[i], arr[j]); // Swap the current non-zero element to its correct position
@@ -99,24 +98,50 @@ public:
 
 int main() {
     Solution obj;
-    int arr[] = {1, 0, 2, 3, 0, 4, 0};
-    int n = sizeof(arr) / sizeof(arr[0]);
+    vector<int> arr = {1, 0, 2, 3, 0, 4, 0};
 
     // Brute Force Example (Commented out for explanation purposes)
     // Uncomment to test brute force approach:
     /*
-    obj.pushZerosToEndBruteForce(arr, n);
+    obj.pushZerosToEndBruteForce(arr);
     */
 
     cout << "Before Moving Zeros: ";
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
+    for (int i = 0; i < arr.size(); i++) cout << arr[i] << " ";
     cout << endl;
 
-    obj.pushZerosToEnd(arr, n);
+    obj.pushZerosToEnd(arr);
 
     cout << "After Moving Zeros: ";
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
+    for (int i = 0; i < arr.size(); i++) cout << arr[i] << " ";
     cout << endl;
 
     return 0;
 }
+
+/*
+### Explanation:
+
+#### Method 1: Brute Force Approach
+- We first copy all the non-zero elements into a temporary vector `temp` and fill the remaining positions with zeros.
+- Finally, we copy the elements of `temp` back into the original vector.
+- **Time Complexity**: O(n) (Two passes to copy and then copy back).
+- **Space Complexity**: O(n) (We use an additional temporary array `temp`).
+
+#### Method 2: In-place Two-pointer Technique
+- We use two pointers: one to track the position where the next non-zero element should go, and the other to traverse the array.
+- When a non-zero element is found, it's swapped with the element at the tracked position.
+- **Time Complexity**: O(n) (Single pass through the array).
+- **Space Complexity**: O(1) (No extra space used, operates in-place).
+
+### Dry Run for In-place Approach:
+For `arr[] = {1, 0, 2, 3, 0, 4, 0}`, after applying the in-place two-pointer technique:
+1. Start with `i = -1` and `j = 0`.
+2. Process each element of the array by checking if it's non-zero, and swapping as necessary.
+3. Final array becomes `{1, 2, 3, 4, 0, 0, 0}`.
+
+### Complexity:
+- **Best Case**: O(n) (When the array has no zeros or all zeros, it still requires one pass).
+- **Worst Case**: O(n) (When all elements are non-zero or when there are a few zeros scattered in the array).
+- **Space Complexity**: O(1) (In-place solution, no extra memory is used).
+*/
