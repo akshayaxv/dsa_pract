@@ -1,85 +1,159 @@
 #include <iostream>
 #include <vector>
-#include <unordered_set>
+#include <set>
 #include <algorithm>
 using namespace std;
 
-/*
- * Problem Statement: 
- * Given two sorted arrays arr1[] and arr2[] of sizes n and m, 
- * the task is to find the union of these two arrays.
- * 
- * The union of two arrays is the set of all distinct elements present in both arrays.
- * The output should contain the distinct elements in ascending order.
- * 
- * Example 1:
- * Input: arr1[] = {1, 2, 3, 4, 5}, arr2[] = {2, 3, 4, 4, 5}
- * Output: {1, 2, 3, 4, 5}
- * 
- * Example 2:
- * Input: arr1[] = {2, 3, 4, 4, 5, 11, 12}, arr2[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
- * Output: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
- */
+// Optimized Solution using Two Pointers
+vector<int> findUnionOptimized(int arr1[], int arr2[], int n, int m) {
+    /*
+     * Optimized Solution:
+     * Time Complexity: O(N + M) 
+     * Space Complexity: O(1) (excluding the output array)
+     * Explanation:
+     * We use two pointers (i, j) for iterating through both arrays.
+     * As the arrays are already sorted, we compare elements at arr1[i] and arr2[j].
+     * If arr1[i] < arr2[j], we add arr1[i] to the result if it's not already present.
+     * Similarly, we compare arr1[i] with arr2[j] and add the smaller element to the result.
+     * The space complexity is O(1) excluding the space used for the result.
+     */
 
-// Optimized Solution: O(N + M) time complexity, O(1) space complexity
-vector<int> findUnion(const vector<int>& arr1, const vector<int>& arr2) {
     int i = 0, j = 0;
-    vector<int> unionArr;
+    vector<int> unionArray;
 
-    // Traverse both arrays and merge them
-    while (i < arr1.size() && j < arr2.size()) {
+    // Traverse both arrays
+    while (i < n && j < m) {
         if (arr1[i] < arr2[j]) {
-            // If element from arr1 is smaller and not already in unionArr, add it
-            if (unionArr.empty() || unionArr.back() != arr1[i]) {
-                unionArr.push_back(arr1[i]);
+            if (unionArray.empty() || unionArray.back() != arr1[i]) {
+                unionArray.push_back(arr1[i]);
             }
             i++;
         } else if (arr1[i] > arr2[j]) {
-            // If element from arr2 is smaller and not already in unionArr, add it
-            if (unionArr.empty() || unionArr.back() != arr2[j]) {
-                unionArr.push_back(arr2[j]);
+            if (unionArray.empty() || unionArray.back() != arr2[j]) {
+                unionArray.push_back(arr2[j]);
             }
             j++;
-        } else {
-            // If elements are equal, add any one of them and move both pointers
-            if (unionArr.empty() || unionArr.back() != arr1[i]) {
-                unionArr.push_back(arr1[i]);
+        } else {  // arr1[i] == arr2[j]
+            if (unionArray.empty() || unionArray.back() != arr1[i]) {
+                unionArray.push_back(arr1[i]);
             }
             i++;
             j++;
         }
     }
 
-    // Add remaining elements from arr1, if any
-    while (i < arr1.size()) {
-        if (unionArr.empty() || unionArr.back() != arr1[i]) {
-            unionArr.push_back(arr1[i]);
+    // Add remaining elements of arr1
+    while (i < n) {
+        if (unionArray.empty() || unionArray.back() != arr1[i]) {
+            unionArray.push_back(arr1[i]);
         }
         i++;
     }
 
-    // Add remaining elements from arr2, if any
-    while (j < arr2.size()) {
-        if (unionArr.empty() || unionArr.back() != arr2[j]) {
-            unionArr.push_back(arr2[j]);
+    // Add remaining elements of arr2
+    while (j < m) {
+        if (unionArray.empty() || unionArray.back() != arr2[j]) {
+            unionArray.push_back(arr2[j]);
         }
         j++;
     }
 
-    return unionArr;
+    return unionArray;
 }
 
-// Driver function to test the solution
+/*
+ * Dry Run of Optimized Approach:
+ * Input:
+ * arr1 = {2, 3, 4, 4, 5, 11, 12}
+ * arr2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+ * n = 7, m = 10
+ *
+ * 1. Initial pointers: i = 0, j = 0, unionArray = {}
+ * 2. Compare arr1[i] (2) and arr2[j] (1), since 2 > 1, add 1 to unionArray, j++
+ *    unionArray = {1}
+ * 3. Compare arr1[i] (2) and arr2[j] (2), since 2 == 2, add 2 to unionArray, i++, j++
+ *    unionArray = {1, 2}
+ * 4. Compare arr1[i] (3) and arr2[j] (3), since 3 == 3, add 3 to unionArray, i++, j++
+ *    unionArray = {1, 2, 3}
+ * 5. Compare arr1[i] (4) and arr2[j] (4), since 4 == 4, add 4 to unionArray, i++, j++
+ *    unionArray = {1, 2, 3, 4}
+ * 6. Compare arr1[i] (5) and arr2[j] (5), since 5 == 5, add 5 to unionArray, i++, j++
+ *    unionArray = {1, 2, 3, 4, 5}
+ * 7. Compare arr1[i] (11) and arr2[j] (6), since 11 > 6, add 6 to unionArray, j++
+ *    unionArray = {1, 2, 3, 4, 5, 6}
+ * 8. Compare arr1[i] (11) and arr2[j] (7), since 11 > 7, add 7 to unionArray, j++
+ *    unionArray = {1, 2, 3, 4, 5, 6, 7}
+ * 9. Compare arr1[i] (11) and arr2[j] (8), since 11 > 8, add 8 to unionArray, j++
+ *    unionArray = {1, 2, 3, 4, 5, 6, 7, 8}
+ * 10. Compare arr1[i] (11) and arr2[j] (9), since 11 > 9, add 9 to unionArray, j++
+ *     unionArray = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+ * 11. Compare arr1[i] (11) and arr2[j] (10), since 11 > 10, add 10 to unionArray, j++
+ *     unionArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+ * 12. Now arr2 is exhausted, add the remaining elements of arr1 (11, 12) to unionArray
+ *     unionArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+ *
+ * Final Union: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+ */
+
+// Brute Force Solution using Set
+vector<int> findUnionBruteForce(int arr1[], int arr2[], int n, int m) {
+    /*
+     * Brute Force Approach:
+     * Time Complexity: O(N + M + (N + M) log(N + M)) due to sorting
+     * Space Complexity: O(N + M)
+     * Explanation:
+     * We use a set to store all elements from both arrays. Then, we convert the set back to a vector and sort it.
+     */
+    
+    set<int> s;
+
+    // Insert elements of both arrays into the set
+    for (int i = 0; i < n; i++) {
+        s.insert(arr1[i]);
+    }
+    for (int i = 0; i < m; i++) {
+        s.insert(arr2[i]);
+    }
+
+    // Convert set to vector
+    vector<int> unionArray(s.begin(), s.end());
+
+    return unionArray;
+}
+
+/*
+ * Dry Run of Brute Force Approach:
+ * Input:
+ * arr1 = {2, 3, 4, 4, 5, 11, 12}
+ * arr2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+ * n = 7, m = 10
+ *
+ * 1. Insert elements of arr1 into set: {2, 3, 4, 5, 11, 12}
+ * 2. Insert elements of arr2 into set: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+ * 3. Convert set to vector and sort it (though set is already sorted):
+ *    {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+ *
+ * Final Union: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+ */
+
 int main() {
-    vector<int> arr1 = {2, 3, 4, 4, 5, 11, 12};
-    vector<int> arr2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int arr1[] = {2, 3, 4, 4, 5, 11, 12};
+    int arr2[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int n = sizeof(arr1) / sizeof(arr1[0]);
+    int m = sizeof(arr2) / sizeof(arr2[0]);
 
-    // Finding the union of two sorted arrays
-    vector<int> unionArr = findUnion(arr1, arr2);
+    // Call Optimized Approach
+    vector<int> resultOptimized = findUnionOptimized(arr1, arr2, n, m);
+    cout << "Optimized Union of arr1 and arr2 is: ";
+    for (int val : resultOptimized) {
+        cout << val << " ";
+    }
+    cout << endl;
 
-    // Printing the result
-    cout << "Union of arr1 and arr2 is: ";
-    for (int val : unionArr) {
+    // Call Brute Force Approach
+    vector<int> resultBruteForce = findUnionBruteForce(arr1, arr2, n, m);
+    cout << "Brute Force Union of arr1 and arr2 is: ";
+    for (int val : resultBruteForce) {
         cout << val << " ";
     }
     cout << endl;
@@ -87,29 +161,13 @@ int main() {
     return 0;
 }
 
-/*
- * Time Complexity Analysis:
- * - Time Complexity: O(N + M), where N is the size of arr1 and M is the size of arr2.
- * - We are iterating over both arrays once, making this solution linear in terms of time.
- * 
- * - Space Complexity: O(1) for extra space used, but O(N + M) space is used for the output array.
- * 
- * The time complexity is optimal as we only traverse both arrays once.
- * 
- * Brute Force Approach (using a set):
- * - Time Complexity: O(N + M) for inserting into the set, and O(N log N + M log M) for sorting.
- * - Space Complexity: O(N + M) for storing the union in the set.
- * 
- * Brute Force Code (using set and sorting):
- * 
- * vector<int> findUnionBruteForce(const vector<int>& arr1, const vector<int>& arr2) {
- *     unordered_set<int> set;
- *     for (int num : arr1) set.insert(num);
- *     for (int num : arr2) set.insert(num);
- *     
- *     vector<int> result(set.begin(), set.end());
- *     sort(result.begin(), result.end());
- *     
- *     return result;
- * }
- */
+//Optimized Approach (Two Pointers):
+
+// Time Complexity: O(N + M), where N and M are the sizes of the two arrays.
+// Space Complexity: O(1), excluding space for the result.
+// Dry Run: Explained in the comments of the code, where we compare elements from both arrays and insert only distinct values into the result.
+// Brute Force Approach (Set):
+
+// Time Complexity: O(N + M + (N + M) log(N + M)) due to sorting the combined set.
+// Space Complexity: O(N + M) for storing the elements in the set.
+// Dry Run: Explained in the comments, where elements from both arrays are inserted into a set, and then the set is converted to a sorted vector.
