@@ -7,12 +7,12 @@ using namespace std;
 class Solution
 {
 public:
-    // Function to check if array has 2 elements whose sum is equal to the given value
-    bool hasArrayTwoCandidates(int arr[], int n, int x)
+    // Function to check if the array has 2 elements whose sum is equal to the given value
+    bool hasArrayTwoCandidates(vector<int>& arr, int x)
     {
         // Using an unordered map (hashmap) to store the array elements and their indices
         unordered_map<int, int> mp;
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < arr.size(); i++)
         {
             // If (x - arr[i]) is found in the map, we have found two elements whose sum is equal to x
             if (mp.find(x - arr[i]) != mp.end())
@@ -49,10 +49,10 @@ Space Complexity: O(N)
 // Space Complexity: O(1) - only a few variables are used, and no extra space is used apart from the array.
 class Solution {
 public:
-    bool hasArrayTwoCandidates(int arr[], int n, int x) {
+    bool hasArrayTwoCandidates(vector<int>& arr, int x) {
         // Sorting the array first
-        sort(arr, arr + n); 
-        int i = 0, j = n - 1;  // Using two pointers: i starts from the left, j starts from the right
+        sort(arr.begin(), arr.end()); 
+        int i = 0, j = arr.size() - 1;  // Using two pointers: i starts from the left, j starts from the right
         
         while (i < j) {
             // If the sum of the elements at i and j is equal to x, return true
@@ -92,19 +92,18 @@ Space Complexity: O(1)
 
 int main() {
     Solution sol;
-    int arr[] = {1, 4, 7, 3, 6, 5};
-    int n = sizeof(arr) / sizeof(arr[0]);
+    vector<int> arr = {1, 4, 7, 3, 6, 5};
     int x = 10;
     
     // Approach 1: Hashing
-    if (sol.hasArrayTwoCandidates(arr, n, x)) {
+    if (sol.hasArrayTwoCandidates(arr, x)) {
         cout << "Pair found with sum " << x << " (Using Hashing)" << endl;
     } else {
         cout << "No pair found with sum " << x << " (Using Hashing)" << endl;
     }
     
     // Approach 2: Two Pointers
-    if (sol.hasArrayTwoCandidates(arr, n, x)) {
+    if (sol.hasArrayTwoCandidates(arr, x)) {
         cout << "Pair found with sum " << x << " (Using Two Pointers)" << endl;
     } else {
         cout << "No pair found with sum " << x << " (Using Two Pointers)" << endl;
