@@ -30,6 +30,24 @@ public:
         // Copy the remaining elements to the rest of the array
         for (int i = 0; i < n - k; i++)
             arr[k + i] = temp[i];
+
+
+        // ------------------------->vector
+        
+         // Create a temporary array (vector)
+        // vector<int> temp(n);
+
+        // // Copy elements from original array to temp array
+        // for (int i = 0; i < n; i++)
+        //     temp[i] = arr[i];
+
+        // // Copy the last K elements to the beginning of the array
+        // for (int i = 0; i < k; i++)
+        //     arr[i] = temp[n - k + i];
+
+        // // Copy the remaining elements to the rest of the array
+        // for (int i = 0; i < n - k; i++)
+        //     arr[k + i] = temp[i];
     }
 
     // Optimal in-place solution using reversal
@@ -52,6 +70,16 @@ public:
 
         // Reverse the entire array
         reverse(arr, arr + n);
+
+// -------------------vector
+        //  reverse(arr.end() - k, arr.end());
+
+        // // Reverse the first n-K elements
+        // reverse(arr.begin(), arr.end() - k);
+
+        // // Reverse the entire array
+        // reverse(arr.begin(), arr.end());
+        
     }
 };
 
