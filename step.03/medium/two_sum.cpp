@@ -17,11 +17,11 @@ public:
             // If (x - arr[i]) is found in the map, we have found two elements whose sum is equal to x
             if (mp.find(x - arr[i]) != mp.end())
             {
-                return true;
+                return true; //{x - arr[i], arr[i]}
             }
             mp[arr[i]] = i;  // Store the element in the map with its index
         }
-        return false;  // No such pair found
+        return false;  // No such pair found {-1,-1}
     }
 };
 
@@ -57,7 +57,7 @@ public:
         while (i < j) {
             // If the sum of the elements at i and j is equal to x, return true
             if (arr[i] + arr[j] == x) {
-                return true;
+                return true; //{arr[i], arr[j]}
             }
             // If the sum is greater than x, move the right pointer to the left to decrease the sum
             else if (arr[i] + arr[j] > x) {
