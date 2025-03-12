@@ -32,6 +32,14 @@ int gcd(int a, int b) {
     return (b == 0) ? a : gcd(b, a % b); // Recursively compute GCD
 }
 
+
+//A number is called an Armstrong number if:
+// You split its digits.
+// Raise each digit to the power of the total number of digits.
+// Add them all up.
+// If the sum matches the original number, it's an Armstrong number!
+// Instead of calculating pow(x, digits) again and again, we precompute it for numbers 0 to 9 once and store it in an array.
+
 // ✅ 5️⃣ Armstrong Number (Optimized with Precomputed Powers)
 bool isArmstrong(int n) {
     int original = n, sum = 0, digits = countDigits(n);
@@ -47,7 +55,8 @@ bool isArmstrong(int n) {
 
 // ✅ 6️⃣ Print All Divisors (Optimized: O(√n))
 void printDivisors(int n) {
-    for (int i = 1; i * i <= n; i++) { // Loop till sqrt(n)
+    for (int i = 1; i * i <= n; i++) { // Loop till sqrt(n) Why? Divisors come in pairs!
+
         if (n % i == 0) {
             cout << i << " "; // Print divisor
             if (i != n / i) cout << n / i << " ";  // Print pair divisor
@@ -91,3 +100,6 @@ int main() {
     
     return 0;
 }
+
+
+
