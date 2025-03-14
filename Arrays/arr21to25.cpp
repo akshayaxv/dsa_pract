@@ -57,7 +57,7 @@ vector<int> findLeaders(vector<int>& arr) {
     int maxRight = arr.back(); // Rightmost element is always a leader
     leaders.push_back(maxRight);
     for (int i = arr.size() - 2; i >= 0; i--) {
-        if (arr[i] > maxRight) {
+        if (arr[i] >= maxRight) {
             leaders.push_back(arr[i]);
             maxRight = arr[i]; // Update max
         }
@@ -78,19 +78,27 @@ Output: [17,5,2]
    - Space Complexity: O(N)
 */
 int longestConsecutive(vector<int>& arr) {
-    unordered_set<int> s(arr.begin(), arr.end());
-    int longest = 0;
-    for (int num : arr) {
-        if (s.find(num - 1) == s.end()) { // Start of a sequence
-            int currNum = num, count = 1;
-            while (s.find(currNum + 1) != s.end()) {
-                currNum++;
-                count++;
+    unordered_set<int> s(arr.begin(), arr.end()); // Store all elements in a set
+        int longest = 0;
+
+        for (int num : s) { // Iterate over set to avoid duplicate checks
+            // Start a sequence only if it's the beginning of a sequence
+            if (s.find(num - 1) == s.end()) {
+                int currNum = num;
+                int count = 1;
+
+                // Count consecutive elements
+                while (s.find(currNum + 1) != s.end()) {
+                    currNum++;
+                    count++;
+                }
+
+                longest = max(longest, count);
             }
-            longest = max(longest, count);
         }
-    }
-    return longest;
+
+        return longest;
+   
 }
 
 /*
